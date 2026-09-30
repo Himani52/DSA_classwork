@@ -1,0 +1,57 @@
+ public class ListNode {
+     int val;
+     ListNode next;
+     ListNode() {}
+     ListNode(int val) { 
+          this.val = val;
+     }
+     ListNode(int val, ListNode next) { 
+          this.val = val; 
+          this.next = next; 
+     }
+ }
+ class Solution {
+    public ListNode findk(ListNode temp,int k){
+        while(temp!=null && k>1){
+            k--;
+            temp=temp.next;
+        }
+        return temp;
+    }
+    public ListNode reversek(ListNode temp){
+        ListNode prev=null;
+        while(temp!=null){
+            ListNode nextNode=temp.next;
+            temp.next=prev;
+            prev=temp;
+            temp=nextNode;
+        }
+        return prev;
+    }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode temp=head;
+        ListNode nextNode;
+        ListNode prevNode=null;
+        while(temp!=null){
+            ListNode find=findk(temp,k);
+            if(find==null){
+                if(prevNode!=null){
+                    prevNode.next=temp;
+                }
+                break;
+            }
+            nextNode=find.next;
+            find.next=null;
+            ListNode rev=reversek(temp);
+            if(head==temp){
+                head=rev;
+            }
+            else{
+                prevNode.next=rev;
+            }
+            prevNode=temp;
+            temp=nextNode;
+        }
+        return head;
+    }
+}
