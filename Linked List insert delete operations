@@ -1,82 +1,119 @@
-import java.util.Scanner;
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
 
 class LinkedList {
-
-    class Node {
-        int data;
-        Node next;
-
-        Node(int data) {
-            this.data = data;
-        }
+    constructor() {
+        this.head = null;
+        this.size = 0;
     }
-
-    Node head;
-
-    void insertAtFront(int data) {
-        Node newNode = new Node(data);
-        newNode.next = head;
-        head = newNode;
+    insertAtFront(data) {
+        let newNode = new Node(data);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.size++;
     }
+    insertAtEnd(data) {
+        let newNode = new Node(data);
 
-    void insertAtEnd(int data) {
-        Node newNode = new Node(data);
-
-        if (head == null) {
-            head = newNode;
+        if (this.head === null) {
+            this.head = newNode;
+            this.size++;
             return;
         }
 
-        Node temp = head;
+        let temp = this.head;
 
-        while (temp.next != null) {
+        while (temp.next !== null) {
             temp = temp.next;
         }
 
         temp.next = newNode;
+        this.size++;
     }
+    insertAtMiddle(index, data) {
+        if (index < 0 || index > this.size) return;
 
-    void deleteFromBeginning() {
-        if (head == null) {
+        if (index === 0) {
+            this.insertAtFront(data);
             return;
         }
 
-        head = head.next;
+        if (index === this.size) {
+            this.insertAtEnd(data);
+            return;
+        }
+
+        let newNode = new Node(data);
+        let temp = this.head;
+
+        for (let i = 0; i < index - 1; i++) {
+            temp = temp.next;
+        }
+
+        newNode.next = temp.next;
+        temp.next = newNode;
+        this.size++;
     }
+    deleteAtFront() {
+        if (this.head === null) return;
 
-    void deleteFromEnd() {
-        if (head == null) {
+        this.head = this.head.next;
+        this.size--;
+    }
+    deleteAtEnd() {
+        if (this.head === null) return;
+
+        if (this.head.next === null) {
+            this.head = null;
+            this.size--;
             return;
         }
 
-        if (head.next == null) {
-            head = null;
-            return;
-        }
+        let temp = this.head;
 
-        Node temp = head;
-
-        while (temp.next.next != null) {
+        while (temp.next.next !== null) {
             temp = temp.next;
         }
 
         temp.next = null;
+        this.size--;
+    }
+    deleteAtMiddle(index) {
+        if (index < 0 || index >= this.size) return;
+
+        if (index === 0) {
+            this.deleteAtFront();
+            return;
+        }
+
+        if (index === this.size - 1) {
+            this.deleteAtEnd();
+            return;
+        }
+
+        let temp = this.head;
+
+        for (let i = 0; i < index - 1; i++) {
+            temp = temp.next;
+        }
+
+        temp.next = temp.next.next;
+        this.size--;
     }
 
-    public static void main(String[] args) {
+    display() {
+        let temp = this.head;
+        let result = [];
 
-        Scanner sc = new Scanner(System.in);
-        LinkedList list = new LinkedList();
+        while (temp !== null) {
+            result.push(temp.data);
+            temp = temp.next;
+        }
 
-        int n1 = sc.nextInt();
-        int n2 = sc.nextInt();
-
-        list.insertAtEnd(n1);
-        list.insertAtFront(n2);
-
-        list.deleteFromBeginning();
-
-        list.deleteFromEnd();
-
+        console.log(result.join(" -> "));
     }
 }
