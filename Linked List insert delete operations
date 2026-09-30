@@ -1,119 +1,95 @@
 class Node {
-    constructor(data) {
+    int data;
+    Node next;
+    Node(int data) {
         this.data = data;
         this.next = null;
     }
 }
-
 class LinkedList {
-    constructor() {
-        this.head = null;
-        this.size = 0;
+    Node head;
+    int size = 0;
+    void insertAtFront(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+        size++;
     }
-    insertAtFront(data) {
-        let newNode = new Node(data);
-        newNode.next = this.head;
-        this.head = newNode;
-        this.size++;
-    }
-    insertAtEnd(data) {
-        let newNode = new Node(data);
-
-        if (this.head === null) {
-            this.head = newNode;
-            this.size++;
+    void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            size++;
             return;
         }
-
-        let temp = this.head;
-
-        while (temp.next !== null) {
+        Node temp = head;
+        while (temp.next != null) {
             temp = temp.next;
         }
-
         temp.next = newNode;
-        this.size++;
+        size++;
     }
-    insertAtMiddle(index, data) {
-        if (index < 0 || index > this.size) return;
-
-        if (index === 0) {
-            this.insertAtFront(data);
+    void insertAtMiddle(int index, int data) {
+        if (index < 0 || index > size) return;
+        if (index == 0) {
+            insertAtFront(data);
             return;
         }
-
-        if (index === this.size) {
-            this.insertAtEnd(data);
+        if (index == size) {
+            insertAtEnd(data);
             return;
         }
-
-        let newNode = new Node(data);
-        let temp = this.head;
-
-        for (let i = 0; i < index - 1; i++) {
+        Node newNode = new Node(data);
+        Node temp = head;
+        for (int i = 0; i < index - 1; i++) {
             temp = temp.next;
         }
-
         newNode.next = temp.next;
         temp.next = newNode;
-        this.size++;
+        size++;
     }
-    deleteAtFront() {
-        if (this.head === null) return;
-
-        this.head = this.head.next;
-        this.size--;
+    void deleteAtFront() {
+        if (head == null) return;
+        head = head.next;
+        size--;
     }
-    deleteAtEnd() {
-        if (this.head === null) return;
-
-        if (this.head.next === null) {
-            this.head = null;
-            this.size--;
+    void deleteAtEnd() {
+        if (head == null) return;
+        if (head.next == null) {
+            head = null;
+            size--;
             return;
         }
-
-        let temp = this.head;
-
-        while (temp.next.next !== null) {
+        Node temp = head;
+        while (temp.next.next != null) {
             temp = temp.next;
         }
-
         temp.next = null;
-        this.size--;
+        size--;
     }
-    deleteAtMiddle(index) {
-        if (index < 0 || index >= this.size) return;
-
-        if (index === 0) {
-            this.deleteAtFront();
+    void deleteAtMiddle(int index) {
+        if (index < 0 || index >= size) return;
+        if (index == 0) {
+            deleteAtFront();
             return;
         }
-
-        if (index === this.size - 1) {
-            this.deleteAtEnd();
+        if (index == size - 1) {
+            deleteAtEnd();
             return;
         }
-
-        let temp = this.head;
-
-        for (let i = 0; i < index - 1; i++) {
+        Node temp = head;
+        for (int i = 0; i < index - 1; i++) {
             temp = temp.next;
         }
-
         temp.next = temp.next.next;
-        this.size--;
+        size--;
     }
-
-    display() {
-        let temp = this.head;
-        let result = [];
-
-        while (temp !== null) {
-            result.push(temp.data);
+    void display() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
             temp = temp.next;
         }
-
-        console.log(result.join(" -> "));
+        System.out.println("null");
     }
 }
