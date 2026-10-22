@@ -1,0 +1,15 @@
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        long min=Long.MIN_VALUE;
+        long max=Long.MAX_VALUE;
+        return bst(root,min,max);
+    }
+    public boolean bst(TreeNode root,long min,long max){
+        if(root==null) return true;
+        if(root.val<=min || root.val>=max) return false;
+        boolean left=bst(root.left,min,root.val);
+        boolean right=bst(root.right,root.val,max);
+        if(left!=true || right!=true) return false;
+        return true;
+    }
+}
